@@ -1,34 +1,15 @@
 using MediatR;
-using Microsoft.Extensions.Options;
-using WorkerService.CleanArchitecture.Options;
 
 namespace WorkerService.CleanArchitecture.Workers;
 
-internal abstract class WorkerBase<T> : BackgroundService
+public abstract class WorkerBase : BackgroundService
 {
-    protected ILogger<WorkerBase<T>> Logger { get; }
-    protected IMediator Mediator { get; }
-    protected WorkerOptions Options { get; }
-
-    protected WorkerBase(ILogger<WorkerBase<T>> logger,
-        IMediator mediator,
-        IOptions<WorkerOptions> options)
+    protected ILogger<WorkerBase> Logger { get; }
+    protected ISender Mediator { get; }
+    
+    protected WorkerBase(ILogger<WorkerBase> logger, ISender mediator)
     {
         Logger = logger;
         Mediator = mediator;
-        Options = options.Value;
     }
-
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        Logger.LogInformation("XIA.Worker service starting at: {time}", DateTimeOffset.Now);
-        
-        while (!stoppingToken.IsCancellationRequested)
-        {
-            await Task.Delay(Options.DelayMilliseconds, stoppingToken);
-        }
-    }
-    
-    protected abstract Task ProcessMessage(T message, string messageId, 
-        IReadOnlyDictionary<string, object> userProperties, CancellationToken cancellationToken);
 }

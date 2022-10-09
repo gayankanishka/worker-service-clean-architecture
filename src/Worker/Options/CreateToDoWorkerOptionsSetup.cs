@@ -2,17 +2,17 @@ using Microsoft.Extensions.Options;
 
 namespace WorkerService.CleanArchitecture.Options;
 
-public class WorkerOptionsSetup : IConfigureOptions<WorkerOptions>
+public class CreateToDoWorkerOptionsSetup : IConfigureOptions<CreateToDoWorkerOptions>
 {
-    private const string ConfigurationSectionName = "WorkerOptions";
+    private const string ConfigurationSectionName = "CreateToDoWorkerOptions";
     private readonly IConfiguration _configuration;
 
-    public WorkerOptionsSetup(IConfiguration configuration)
+    public CreateToDoWorkerOptionsSetup(IConfiguration configuration)
     {
         _configuration = configuration;
     }
 
-    public void Configure(WorkerOptions options)
+    public void Configure(CreateToDoWorkerOptions options)
     {
         _configuration.GetSection(ConfigurationSectionName).Bind(options);
     }

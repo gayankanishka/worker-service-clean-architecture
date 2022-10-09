@@ -1,21 +1,26 @@
 using Serilog;
 using WorkerService.CleanArchitecture.Infrastructure.Logger;
 using WorkerService.CleanArchitecture.Options;
+using WorkerService.CleanArchitecture.Workers;
 using LoggerConfigurationExtensions = WorkerService.CleanArchitecture.Infrastructure.Logger.LoggerConfigurationExtensions;
 
-string applicationName = "WorkerService-CleanArchitecture";
+const string applicationName = "WorkerService-CleanArchitecture";
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureLogging(logging =>
     {
         LoggerConfigurationExtensions.SetupLoggerConfiguration(applicationName);
     })
-    .ConfigureServices(services =>
+    .ConfigureServices((hostContext, services) =>
     {
-        services.ConfigureOptions<WorkerOptions>();
+        services.ConfigureOptions<CreateToDoWorkerOptionsSetup>();
+        
+        services.AddApplicationServices();
+        services.AddInfrastructureServices(hostContext.Configuration);
         
         // All the Worker processor registrations
-        // services.AddHostedService<Worker>();
+        services.AddHostedService<CreateToDoWorker>();
+        services.AddHostedService<EmailWorker>();
     })
     .UseSerilog(((hostBuilderContext, services, loggerConfiguration) => 
     { 
