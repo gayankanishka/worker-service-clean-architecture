@@ -1,7 +1,6 @@
 ﻿using WorkerService.CleanArchitecture.Application.Common.Exceptions;
 using WorkerService.CleanArchitecture.Application.Common.Interfaces;
 using WorkerService.CleanArchitecture.Domain.Entities;
-using WorkerService.CleanArchitecture.Domain.Events;
 using MediatR;
 
 namespace WorkerService.CleanArchitecture.Application.TodoItems.Commands.DeleteTodoItem;
@@ -28,9 +27,6 @@ public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemComman
         }
 
         _context.TodoItems.Remove(entity);
-
-        entity.AddDomainEvent(new TodoItemDeletedEvent(entity));
-
         await _context.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;

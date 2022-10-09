@@ -1,6 +1,8 @@
 ﻿using WorkerService.CleanArchitecture.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
+// ReSharper disable CheckNamespace
+
 namespace MediatR;
 
 public static class MediatorExtensions
