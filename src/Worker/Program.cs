@@ -13,13 +13,12 @@ IHost host = Host.CreateDefaultBuilder(args)
     })
     .ConfigureServices((hostContext, services) =>
     {
-        services.ConfigureOptions<CreateToDoWorkerOptionsSetup>();
+        services.ConfigureOptions<EmailWorkerOptionsSetup>();
         
         services.AddApplicationServices();
         services.AddInfrastructureServices(hostContext.Configuration);
         
         // All the Worker processor registrations
-        services.AddHostedService<CreateToDoWorker>();
         services.AddHostedService<EmailWorker>();
     })
     .UseSerilog(((hostBuilderContext, services, loggerConfiguration) => 

@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using WorkerService.CleanArchitecture.Application.Common.Interfaces;
-using WorkerService.CleanArchitecture.Domain.Entities;
 using WorkerService.CleanArchitecture.Infrastructure.Persistence.Interceptors;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -21,8 +20,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         _mediator = mediator;
         _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
     }
-
-    public DbSet<TodoItem> TodoItems => Set<TodoItem>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

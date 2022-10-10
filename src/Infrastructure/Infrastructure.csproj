@@ -25,6 +25,7 @@
 
     <ItemGroup>
       <Folder Include="Messaging\Options" />
+      <Folder Include="Persistence\Configurations" />
       <Folder Include="Persistence\Migrations" />
       <Folder Include="Persistence\Options" />
     </ItemGroup>
