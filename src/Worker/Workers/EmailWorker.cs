@@ -1,11 +1,11 @@
-using MediatR;
+using WorkerService.CleanArchitecture.Domain.Models;
 
 namespace WorkerService.CleanArchitecture.Workers;
 
 public class EmailWorker : WorkerBase
 {
-    public EmailWorker(ILogger<EmailWorker> logger, ISender mediator) 
-        : base(logger, mediator)
+    public EmailWorker(ILogger<EmailWorker> logger) 
+        : base(logger)
     {
     }
 

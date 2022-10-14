@@ -1,7 +1,5 @@
-﻿using MediatR;
+﻿namespace WorkerService.CleanArchitecture.Domain.Common;
 
-namespace WorkerService.CleanArchitecture.Domain.Common;
-
-public abstract class BaseEvent : INotification
+public abstract class BaseEvent
 {
 }

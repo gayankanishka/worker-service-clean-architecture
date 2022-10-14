@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Messaging\Options" />
+      <Folder Include="Common" />
       <Folder Include="Persistence\Configurations" />
       <Folder Include="Persistence\Migrations" />
       <Folder Include="Persistence\Options" />
