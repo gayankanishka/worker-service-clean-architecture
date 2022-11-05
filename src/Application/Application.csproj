@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -11,6 +11,7 @@
     <ItemGroup>
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
+        <PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -19,7 +20,6 @@
 
     <ItemGroup>
       <Folder Include="Common\Models" />
-      <Folder Include="Emails" />
     </ItemGroup>
 
 </Project>
