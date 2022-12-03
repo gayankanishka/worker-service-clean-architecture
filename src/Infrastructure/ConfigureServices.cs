@@ -1,4 +1,5 @@
-﻿using WorkerService.CleanArchitecture.Application.Common.Interfaces;
+﻿using MassTransit;
+using WorkerService.CleanArchitecture.Application.Common.Interfaces;
 using WorkerService.CleanArchitecture.Infrastructure.Persistence;
 using WorkerService.CleanArchitecture.Infrastructure.Persistence.Interceptors;
 using WorkerService.CleanArchitecture.Infrastructure.Services;
@@ -6,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SendGrid.Extensions.DependencyInjection;
-using WorkerService.CleanArchitecture.Infrastructure.Communication;
 using WorkerService.CleanArchitecture.Infrastructure.Communication.Options;
 using WorkerService.CleanArchitecture.Infrastructure.Messaging;
 using WorkerService.CleanArchitecture.Infrastructure.Messaging.Options;
@@ -44,15 +44,31 @@ public static class ConfigureServices
             
             options.ApiKey = sendgridOptions.ApiKey;
         });
-        
-        services.AddSingleton<IRabbitMqService, RabbitMqService>();        
-        services.AddSingleton<IQueueService, QueueService>();
-        
+
+        services.AddMassTransit(options =>
+        {
+            options.AddConsumer<EmailConsumer>();
+
+            options.UsingRabbitMq((context, cfg) =>
+            {
+                var opt = services.BuildServiceProvider()
+                    .GetRequiredService<IOptions<RabbitMqOptions>>()
+                    .Value;
+                
+                cfg.Host(opt.HostName, opt.VirtualHost, h =>
+                {
+                    h.Username(opt.UserName);
+                    h.Password(opt.Password);
+                });
+
+                cfg.ConfigureEndpoints(context);
+            });
+        });
+
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<ApplicationDbContextInitialiser>();
         
         services.AddTransient<IDateTime, DateTimeService>();
-        services.AddTransient<ISendgridService, SendgridService>();
 
         return services;
     }

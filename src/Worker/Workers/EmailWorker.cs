@@ -1,16 +1,25 @@
+using MassTransit;
 using WorkerService.CleanArchitecture.Domain.Models;
 
 namespace WorkerService.CleanArchitecture.Workers;
 
 public class EmailWorker : WorkerBase
 {
-    public EmailWorker(ILogger<EmailWorker> logger) 
+    private readonly IBus _bus;
+
+    public EmailWorker(ILogger<EmailWorker> logger, IBus bus) 
         : base(logger)
     {
+        _bus = bus;
     }
 
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        throw new NotImplementedException();
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            await _bus.Publish(new EmailPayload(){Body = "test body"});
+            
+            await Task.Delay(5000, stoppingToken);
+        }
     }
 }
