@@ -7,9 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SendGrid.Extensions.DependencyInjection;
+using WorkerService.CleanArchitecture.Application.Services;
+using WorkerService.CleanArchitecture.Infrastructure.Communication;
 using WorkerService.CleanArchitecture.Infrastructure.Communication.Options;
-using WorkerService.CleanArchitecture.Infrastructure.Messaging;
-using WorkerService.CleanArchitecture.Infrastructure.Messaging.Options;
+using WorkerService.CleanArchitecture.Infrastructure.Queues;
+using WorkerService.CleanArchitecture.Infrastructure.Queues.Options;
 
 // ReSharper disable CheckNamespace
 
@@ -47,7 +49,7 @@ public static class ConfigureServices
 
         services.AddMassTransit(options =>
         {
-            options.AddConsumer<EmailConsumer>();
+            options.AddConsumer<SendEmailConsumer>();
 
             options.UsingRabbitMq((context, cfg) =>
             {
@@ -60,6 +62,8 @@ public static class ConfigureServices
                     h.Username(opt.UserName);
                     h.Password(opt.Password);
                 });
+                
+                cfg.UseMessageRetry(r => r.Immediate(5));
 
                 cfg.ConfigureEndpoints(context);
             });
@@ -67,6 +71,7 @@ public static class ConfigureServices
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<ApplicationDbContextInitialiser>();
+        services.AddScoped<ISendgridService, SendgridService>();
         
         services.AddTransient<IDateTime, DateTimeService>();
 

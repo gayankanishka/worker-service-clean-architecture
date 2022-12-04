@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace WorkerService.CleanArchitecture.Infrastructure.Messaging.Options;
+namespace WorkerService.CleanArchitecture.Infrastructure.Queues.Options;
 
 public class RabbitMqOptionsSetup : IConfigureOptions<RabbitMqOptions>
 {

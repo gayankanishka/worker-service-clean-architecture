@@ -1,4 +1,4 @@
-namespace WorkerService.CleanArchitecture.Infrastructure.Messaging.Options;
+namespace WorkerService.CleanArchitecture.Infrastructure.Queues.Options;
 
 public class RabbitMqOptions
 {
