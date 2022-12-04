@@ -63,7 +63,7 @@ public static class ConfigureServices
                     h.Password(opt.Password);
                 });
 
-                cfg.UseMessageRetry(r => r.Immediate(5));
+                cfg.UseMessageRetry(r => r.Immediate(opt.MaxMessageRetryCount));
 
                 cfg.ConfigureEndpoints(context);
             });

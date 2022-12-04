@@ -6,4 +6,5 @@ public class RabbitMqOptions
     public string VirtualHost { get; init; }
     public string UserName { get; init; }
     public string Password { get; init; }
+    public int MaxMessageRetryCount { get; init; }
 }
