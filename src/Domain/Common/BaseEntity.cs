@@ -4,12 +4,10 @@ namespace WorkerService.CleanArchitecture.Domain.Common;
 
 public abstract class BaseEntity
 {
+    private readonly List<BaseEvent> _domainEvents = new();
     public int Id { get; set; }
 
-    private readonly List<BaseEvent> _domainEvents = new();
-
-    [NotMapped]
-    public IReadOnlyCollection<BaseEvent> DomainEvents => _domainEvents.AsReadOnly();
+    [NotMapped] public IReadOnlyCollection<BaseEvent> DomainEvents => _domainEvents.AsReadOnly();
 
     public void AddDomainEvent(BaseEvent domainEvent)
     {

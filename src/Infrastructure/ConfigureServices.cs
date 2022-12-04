@@ -1,17 +1,16 @@
 ﻿using MassTransit;
-using WorkerService.CleanArchitecture.Application.Common.Interfaces;
-using WorkerService.CleanArchitecture.Infrastructure.Persistence;
-using WorkerService.CleanArchitecture.Infrastructure.Persistence.Interceptors;
-using WorkerService.CleanArchitecture.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SendGrid.Extensions.DependencyInjection;
+using WorkerService.CleanArchitecture.Application.Common.Interfaces;
 using WorkerService.CleanArchitecture.Application.Services;
 using WorkerService.CleanArchitecture.Infrastructure.Communication;
 using WorkerService.CleanArchitecture.Infrastructure.Communication.Options;
-using WorkerService.CleanArchitecture.Infrastructure.Queues;
+using WorkerService.CleanArchitecture.Infrastructure.Persistence;
+using WorkerService.CleanArchitecture.Infrastructure.Persistence.Interceptors;
 using WorkerService.CleanArchitecture.Infrastructure.Queues.Options;
+using WorkerService.CleanArchitecture.Infrastructure.Services;
 
 // ReSharper disable CheckNamespace
 
@@ -19,7 +18,8 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.ConfigureOptions<RabbitMqOptionsSetup>();
         services.ConfigureOptions<SendgridOptionsSetup>();
@@ -37,13 +37,13 @@ public static class ConfigureServices
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
         }
-        
+
         services.AddSendGrid(options =>
         {
-            var sendgridOptions = services.BuildServiceProvider()
+            SendgridOptions? sendgridOptions = services.BuildServiceProvider()
                 .GetRequiredService<IOptions<SendgridOptions>>()
                 .Value;
-            
+
             options.ApiKey = sendgridOptions.ApiKey;
         });
 
@@ -53,16 +53,16 @@ public static class ConfigureServices
 
             options.UsingRabbitMq((context, cfg) =>
             {
-                var opt = services.BuildServiceProvider()
+                RabbitMqOptions? opt = services.BuildServiceProvider()
                     .GetRequiredService<IOptions<RabbitMqOptions>>()
                     .Value;
-                
+
                 cfg.Host(opt.HostName, opt.VirtualHost, h =>
                 {
                     h.Username(opt.UserName);
                     h.Password(opt.Password);
                 });
-                
+
                 cfg.UseMessageRetry(r => r.Immediate(5));
 
                 cfg.ConfigureEndpoints(context);
@@ -72,7 +72,7 @@ public static class ConfigureServices
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<ApplicationDbContextInitialiser>();
         services.AddScoped<ISendgridService, SendgridService>();
-        
+
         services.AddTransient<IDateTime, DateTimeService>();
 
         return services;

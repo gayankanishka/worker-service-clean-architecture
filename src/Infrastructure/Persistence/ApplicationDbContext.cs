@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using WorkerService.CleanArchitecture.Application.Common.Interfaces;
 using WorkerService.CleanArchitecture.Infrastructure.Persistence.Interceptors;
-using Microsoft.EntityFrameworkCore;
 
 namespace WorkerService.CleanArchitecture.Infrastructure.Persistence;
 
@@ -11,10 +11,15 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public ApplicationDbContext(
         DbContextOptions<ApplicationDbContext> options,
-        AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor) 
+        AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor)
         : base(options)
     {
         _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
+    }
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return await base.SaveChangesAsync(cancellationToken);
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -27,10 +32,5 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
-    }
-
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        return await base.SaveChangesAsync(cancellationToken);
     }
 }
