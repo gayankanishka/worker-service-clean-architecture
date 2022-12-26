@@ -1,35 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <RootNamespace>WorkerService.CleanArchitecture.Infrastructure</RootNamespace>
         <AssemblyName>WorkerService.CleanArchitecture.Infrastructure</AssemblyName>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.8"/>
-        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.9"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.9"/>
-        <PackageReference Include="RabbitMQ.Client" Version="6.4.0"/>
-        <PackageReference Include="SendGrid.Extensions.DependencyInjection" Version="1.0.1"/>
-        <PackageReference Include="Serilog.AspNetCore" Version="6.0.1"/>
-        <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0"/>
-        <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0"/>
-        <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0"/>
-        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0"/>
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.9" />
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.1" />
+        <PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
+        <PackageReference Include="SendGrid.Extensions.DependencyInjection" Version="1.0.1" />
+        <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+        <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
+        <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
+        <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
+        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Application\Application.csproj"/>
+        <ProjectReference Include="..\Application\Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Persistence\Configurations"/>
-        <Folder Include="Persistence\Migrations"/>
-        <Folder Include="Persistence\Options"/>
+        <Folder Include="Persistence\Configurations" />
+        <Folder Include="Persistence\Migrations" />
+        <Folder Include="Persistence\Options" />
     </ItemGroup>
 
 </Project>

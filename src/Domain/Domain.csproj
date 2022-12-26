@@ -1,17 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <RootNamespace>WorkerService.CleanArchitecture.Domain</RootNamespace>
         <AssemblyName>WorkerService.CleanArchitecture.Domain</AssemblyName>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Dtos"/>
-        <Folder Include="Entities"/>
-        <Folder Include="Events"/>
+        <Folder Include="Dtos" />
+        <Folder Include="Entities" />
+        <Folder Include="Events" />
     </ItemGroup>
 
 </Project>
