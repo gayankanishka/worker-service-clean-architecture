@@ -50,6 +50,7 @@ public static class ConfigureServices
         services.AddMassTransit(options =>
         {
             options.AddConsumer<SendEmailConsumer>();
+            options.SetKebabCaseEndpointNameFormatter();
 
             options.UsingRabbitMq((context, cfg) =>
             {
