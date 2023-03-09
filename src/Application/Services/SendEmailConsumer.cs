@@ -7,10 +7,10 @@ namespace WorkerService.CleanArchitecture.Application.Services;
 
 public class SendEmailConsumer : IConsumer<SendEmailMessage>
 {
-    private readonly ILogger<SendEmailMessage> _logger;
+    private readonly ILogger<SendEmailConsumer> _logger;
     private readonly ISendgridService _sendgridService;
 
-    public SendEmailConsumer(ILogger<SendEmailMessage> logger, ISendgridService sendgridService)
+    public SendEmailConsumer(ILogger<SendEmailConsumer> logger, ISendgridService sendgridService)
     {
         _logger = logger;
         _sendgridService = sendgridService;
